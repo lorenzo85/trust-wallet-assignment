@@ -64,6 +64,7 @@ func (p *RPCProxy) Handle(w http.ResponseWriter, request *http.Request) {
 		}
 	}
 
+	// Perform the actual request to the upstream service
 	upstreamResponse, err := p.Client.Do(upstreamRequest)
 	if err != nil {
 		slog.Error("upstream request failed", "err", err, "upstream", p.Upstream)
