@@ -1,7 +1,6 @@
 # Trust Wallet - Assignment
 
-This repository provisions the AWS infrastructure and the application code for a
-stateless JSON-RPC proxy that forwards requests to `polygon.drpc.org`.
+This repository provisions the AWS infrastructure and the application code for a simple blockchain (JSON)RPC proxy that forwards requests to `polygon.drpc.org`.
 
 **Infrastructure** (`infrastructure/` Terraform modules orchestrated with Terragrunt):
 - VPC spanning 3 availability zones, each with a public and a private subnet
