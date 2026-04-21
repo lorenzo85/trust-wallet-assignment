@@ -32,6 +32,12 @@ This repository provisions the AWS infrastructure and the application code for a
 | Docker     | any      | Must support `buildx` for multi-arch builds (`--platform linux/arm64`). |
 | Go         | 1.22     | Only needed for running the proxy locally; the Dockerfile handles build-for-deploy. |
 
+The infrastructure IaC is expecting a bucket on the target account with the following naming structure:
+
+```text
+trust-wallet-tfstate-${local.environment}-${local.aws_account_id}-${local.aws_region}-an
+```
+If a different name is used update the `remote_state.config.bucket` property in the `root.hcl` file.
 
 # Deploy infrastructure
 
