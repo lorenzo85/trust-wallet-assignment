@@ -1,4 +1,4 @@
-# Trust Wallet - Take-home Assignment
+# Trust Wallet - Assignment
 
 This repository provisions the AWS infrastructure and the application code for a
 stateless JSON-RPC proxy that forwards requests to `polygon.drpc.org`.
