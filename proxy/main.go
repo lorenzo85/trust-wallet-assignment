@@ -29,7 +29,16 @@ func main() {
 		Level: slog.LevelInfo,
 	})))
 
-	// Configure proxy routes
+	// Configure proxy routes and shared client used for upstream requests.
+	// Clients and Transports are safe for concurrent use by multiple goroutines
+	// and for efficiency should only be created once and re-used.
+	// For a real proxy, build transport with higher limits, e.g:
+	// transport := &http.Transport{
+	//	MaxIdleConns:        100,
+	//	MaxIdleConnsPerHost: 100,   // critical for single-destination proxies
+	//	IdleConnTimeout:     90 * time.Second,
+	// }
+	// client := &http.Client{Timeout: *timeout, Transport: transport}
 	client := &http.Client{Timeout: *timeout}
 	proxy := &handlers.RPCProxy{Upstream: *upstream, Client: client}
 
