@@ -44,6 +44,11 @@ func (p *RPCProxy) Handle(w http.ResponseWriter, request *http.Request) {
 		return
 	}
 
+	// request.Context() is the context of the incoming client request.
+	// The Go HTTP server gives us this context, and it cancels when:
+	// 1. Client disconnects
+	// 2. Incoming request's deadline is reached
+	// 3. http.Server.Shutdown() is called during graceful shutdown
 	upstreamRequest, err := http.NewRequestWithContext(request.Context(), http.MethodPost, p.Upstream, bytes.NewReader(body))
 	if err != nil {
 		slog.Error("build upstream request", "err", err, "upstream", p.Upstream)
