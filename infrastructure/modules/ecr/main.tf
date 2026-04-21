@@ -1,3 +1,6 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# ECR Repository used to push Docker images
+# ──────────────────────────────────────────────────────────────────────────────
 resource "aws_ecr_repository" "this" {
   name                 = var.repository_name
   image_tag_mutability = "MUTABLE"

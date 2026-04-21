@@ -1,6 +1,5 @@
 # ──────────────────────────────────────────────────────────────────────────────
 # ECS Service (Fargate)
-# Optional load_balancer block — set `load_balancer` to attach a target group.
 # ──────────────────────────────────────────────────────────────────────────────
 
 resource "aws_ecs_service" "this" {
@@ -31,8 +30,7 @@ resource "aws_ecs_service" "this" {
     }
   }
 
-  # The service's desired_count is managed by this module, but task_definition
-  # changes are expected (image pushes bump the revision).
+  # The desired count is managed by autoscaling config, this is only needed at bootstrap time.
   lifecycle {
     ignore_changes = [desired_count]
   }
