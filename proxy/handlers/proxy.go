@@ -9,7 +9,9 @@ import (
 	"net/http"
 )
 
-const maxRequestBody = 8 << 20 // 8 MiB — hard cap on incoming JSON-RPC bodies.
+// 8 MiB — hard cap on incoming JSON-RPC bodies.
+// This helps to prevent mis-behaving clients to send huge bodies, potentially taking down the service.
+const maxRequestBody = 8 << 20
 
 // RPC Proxy forwards JSON-RPC requests to the upstream endpoint.
 
