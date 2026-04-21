@@ -120,11 +120,16 @@ echo $ALB_DNS
 curl -i http://${ALB_DNS}/health
 # Expected: HTTP/1.1 200 + {"status":"ok"}
 
-# 3. RPC call: verifies the proxy forwards to polygon.drpc.org (egress via NAT Gateway)
-curl -s -X POST http://{$ALB_DNS}/ \
+# 3. RPC call: verifies the proxy forwards to polygon.drpc.org (egress via NAT Gateway).
+curl -s -X POST http://${ALB_DNS}/ \
+  -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}'
+# Expected: {"jsonrpc":"2.0","id":1,"result":"0x..."}
+
+curl -s -X POST http://${ALB_DNS}/ \
   -H 'Content-Type: application/json' \
   -d '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}'
-# Expected: {"jsonrpc":"2.0","id":1,"result":"0x89"}   # 0x89 = Polygon mainnet
+# Expected: {"id":1,"jsonrpc":"2.0","result":"0x89"}
 ```
 
 **Container logs** — everything the proxy Go app writes to stdout:
@@ -161,6 +166,6 @@ curl -i http://localhost:8585/health
 
 curl -s -X POST http://localhost:8585/ \
   -H 'Content-Type: application/json' \
-  -d '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}'
-# Expected: {"jsonrpc":"2.0","id":1,"result":"0x89"}
+  -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}'
+# Expected: {"jsonrpc":"2.0","id":1,"result":"0x..."} 
 ```
