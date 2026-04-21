@@ -19,7 +19,7 @@ This repository provisions the AWS infrastructure and the application code for a
 
 - **High availability**: the auto-scaler keeps at least two tasks running (`min_capacity = 2`) spread across two AZs, so a single-AZ outage still leaves the service healthy.
 - **Reproducible deploys**: prefer immutable image tags (e.g. the git SHA) over `:latest`. Push the new tag, bump `local.image_tag` in `infrastructure/environments/dev/ecs/task-definition/terragrunt.hcl`, then re-apply the task definition and service to roll the change out.
-- **Public domain & TLS**: in production, the ALB would sit behind a **Route 53 alias record** pointing at a friendly domain like `rpc.example.com`. The ALB would terminate TLS on a 443 listener backed by an **ACM certificate whose Subject Alternative Names cover the company domain** — clients connect over HTTPS while the ALB does TLS termination and forwards plain HTTP to the ECS tasks inside the VPC.
+- **Public domain & TLS**: in production, the ALB would sit behind a **Route 53 alias record** pointing at a company owned domain like `rpc.mycompany.com`. The ALB would terminate TLS on a 443 listener backed by an **ACM certificate whose Subject Alternative Names cover the company domain** — clients connect over HTTPS while the ALB does TLS termination and forwards plain HTTP to the ECS tasks inside the VPC.
 
 
 # Requirements
@@ -86,6 +86,11 @@ terragrunt run --all apply --working-dir infrastructure/environments/dev/ecs/ser
 # Create ECS Autoscaling
 terragrunt run --all plan --working-dir infrastructure/environments/dev/ecs/autoscaling
 terragrunt run --all apply --working-dir infrastructure/environments/dev/ecs/autoscaling
+```
+
+### Destroy the infrastructure
+```bash
+make destroy AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID CONFIRM=yes
 ```
 
 ## Build & push the proxy image
